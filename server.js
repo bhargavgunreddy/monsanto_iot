@@ -24,8 +24,6 @@ connection.connect(function(err) {
 });
 
 // Config
-
-
 app.use(express.static(__dirname));
 
 var myscope = this;
@@ -48,6 +46,7 @@ child.stderr.pipe(process.stderr);
 
 
 var call = function(res, rows){
+  console.log("--> call method -->", rows);  
   res.render('index', function(err, html) {
     if(err){
       console.log("--> renderinf index -->",err);  
@@ -57,14 +56,12 @@ var call = function(res, rows){
       var warning = JSON.stringify(rows);
       //console.log('Warning', warning);
       var temp = "<script type = 'text/javascript'>"+ "var jsonData = " + warning+" </script>";
-      var pos = html.indexOf('<script>');
+      /*var pos = html.indexOf('<script>');
       var len = html.length;
-      var newhtml = html.substr(0, pos) + temp + html.substr(pos, len);
-      console.log(html.indexOf('<script>'));
-      res.send(newhtml);  
-      
+      var newhtml = html.substr(0, pos) + temp + html.substr(pos, len);*/
+      //console.log(html.indexOf('<script>'));
+      res.send( temp + html);  
     }
-    
   });
 }
 
@@ -77,7 +74,7 @@ app.get('/api', function (req, res) {
 	    call(res, rows);
     });
 	
-			console.log("rows ", myscope.localItems.ap);
+			//console.log("rows ", myscope.localItems.ap);
 
 });
 
